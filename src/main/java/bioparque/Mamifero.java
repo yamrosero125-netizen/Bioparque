@@ -12,6 +12,12 @@ public class Mamifero extends Animal {
         super(codigo, nombre, edad, peso, sexo,
                 estadoSalud, estadoInventario, habitat);
 
+        if (tipoPelaje == null || tipoPelaje.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "El tipo de pelaje no puede estar vacío."
+            );
+        }
+
         this.tipoPelaje = tipoPelaje;
     }
 
@@ -19,7 +25,20 @@ public class Mamifero extends Animal {
         return tipoPelaje;
     }
 
-    public void setTipoPelaje(String tipoPelaje) {
+    public void actualizarTipoPelaje(String tipoPelaje) {
+
+        if (tipoPelaje == null || tipoPelaje.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "El tipo de pelaje no puede estar vacío."
+            );
+        }
+
+        if (getEstadoInventario() == EstadoInventario.RETIRADO) {
+            throw new IllegalStateException(
+                    "No se puede modificar un mamífero retirado."
+            );
+        }
+
         this.tipoPelaje = tipoPelaje;
     }
 

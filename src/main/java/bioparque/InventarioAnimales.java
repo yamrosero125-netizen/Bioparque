@@ -12,6 +12,12 @@ public class InventarioAnimales {
 
     public boolean registrarAnimal(Animal animal) {
 
+        if (animal == null) {
+            throw new IllegalArgumentException(
+                    "El animal no puede ser nulo."
+            );
+        }
+
         if (buscarPorCodigo(animal.getCodigo()) != null) {
             return false;
         }
@@ -21,7 +27,8 @@ public class InventarioAnimales {
     }
 
     public ArrayList<Animal> listarAnimales() {
-        return animales;
+
+        return new ArrayList<>(animales);
     }
 
     public Animal buscarPorCodigo(int codigo) {
@@ -34,5 +41,42 @@ public class InventarioAnimales {
         }
 
         return null;
+    }
+
+    public boolean actualizarAnimal(int codigo,
+                                    String nombre,
+                                    int edad,
+                                    double peso,
+                                    String sexo,
+                                    EstadoSalud estadoSalud,
+                                    String habitat) {
+
+        Animal animal = buscarPorCodigo(codigo);
+
+        if (animal == null) {
+            return false;
+        }
+
+        animal.actualizarNombre(nombre);
+        animal.actualizarEdad(edad);
+        animal.actualizarPeso(peso);
+        animal.actualizarSexo(sexo);
+        animal.actualizarEstadoSalud(estadoSalud);
+        animal.trasladarHabitat(habitat);
+
+        return true;
+    }
+
+    public boolean retirarAnimal(int codigo) {
+
+        Animal animal = buscarPorCodigo(codigo);
+
+        if (animal == null) {
+            return false;
+        }
+
+        animal.retirar();
+
+        return true;
     }
 }

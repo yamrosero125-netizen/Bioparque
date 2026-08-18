@@ -13,6 +13,12 @@ public class Ave extends Animal {
         super(codigo, nombre, edad, peso, sexo,
                 estadoSalud, estadoInventario, habitat);
 
+        if (envergadura == null || envergadura < 0) {
+            throw new IllegalArgumentException(
+                    "La envergadura no puede ser negativa."
+            );
+        }
+
         this.envergadura = envergadura;
         this.puedeVolar = puedeVolar;
     }
@@ -25,11 +31,31 @@ public class Ave extends Animal {
         return puedeVolar;
     }
 
-    public void setEnvergadura(Double envergadura) {
+    public void actualizarEnvergadura(Double envergadura) {
+
+        if (envergadura == null || envergadura < 0) {
+            throw new IllegalArgumentException(
+                    "La envergadura no puede ser negativa."
+            );
+        }
+
+        if (getEstadoInventario() == EstadoInventario.RETIRADO) {
+            throw new IllegalStateException(
+                    "No se puede modificar un ave retirada."
+            );
+        }
+
         this.envergadura = envergadura;
     }
 
-    public void setPuedeVolar(boolean puedeVolar) {
+    public void actualizarPuedeVolar(boolean puedeVolar) {
+
+        if (getEstadoInventario() == EstadoInventario.RETIRADO) {
+            throw new IllegalStateException(
+                    "No se puede modificar un ave retirada."
+            );
+        }
+
         this.puedeVolar = puedeVolar;
     }
 

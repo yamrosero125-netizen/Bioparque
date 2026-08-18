@@ -12,6 +12,12 @@ public class Reptil extends Animal {
         super(codigo, nombre, edad, peso, sexo,
                 estadoSalud, estadoInventario, habitat);
 
+        if (tipoEscamas == null || tipoEscamas.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "El tipo de escamas no puede estar vacío."
+            );
+        }
+
         this.tipoEscamas = tipoEscamas;
     }
 
@@ -19,7 +25,20 @@ public class Reptil extends Animal {
         return tipoEscamas;
     }
 
-    public void setTipoEscamas(String tipoEscamas) {
+    public void actualizarTipoEscamas(String tipoEscamas) {
+
+        if (tipoEscamas == null || tipoEscamas.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "El tipo de escamas no puede estar vacío."
+            );
+        }
+
+        if (getEstadoInventario() == EstadoInventario.RETIRADO) {
+            throw new IllegalStateException(
+                    "No se puede modificar un reptil retirado."
+            );
+        }
+
         this.tipoEscamas = tipoEscamas;
     }
 
