@@ -21,11 +21,24 @@ public class Reptil extends Animal {
         this.tipoEscamas = tipoEscamas;
     }
 
+    
+    
+
+    @Override
+    public String emitirSonido() {
+
+        return "El reptil hace sentir como se arrastra por el piso.";
+    }
+
+    
+
     public String getTipoEscamas() {
         return tipoEscamas;
     }
 
-    public void actualizarTipoEscamas(String tipoEscamas) {
+    
+
+    public void setTipoEscamas(String tipoEscamas) {
 
         if (tipoEscamas == null || tipoEscamas.trim().isEmpty()) {
             throw new IllegalArgumentException(
@@ -33,17 +46,14 @@ public class Reptil extends Animal {
             );
         }
 
-        if (getEstadoInventario() == EstadoInventario.RETIRADO) {
-            throw new IllegalStateException(
-                    "No se puede modificar un reptil retirado."
-            );
-        }
-
         this.tipoEscamas = tipoEscamas;
     }
 
+    
+
     @Override
     public String toString() {
+
         return "Reptil{" +
                 "codigo=" + getCodigo() +
                 ", nombre='" + getNombre() + '\'' +

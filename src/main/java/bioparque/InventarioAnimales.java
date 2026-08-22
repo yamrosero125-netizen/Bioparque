@@ -12,12 +12,6 @@ public class InventarioAnimales {
 
     public boolean registrarAnimal(Animal animal) {
 
-        if (animal == null) {
-            throw new IllegalArgumentException(
-                    "El animal no puede ser nulo."
-            );
-        }
-
         if (buscarPorCodigo(animal.getCodigo()) != null) {
             return false;
         }
@@ -27,8 +21,7 @@ public class InventarioAnimales {
     }
 
     public ArrayList<Animal> listarAnimales() {
-
-        return new ArrayList<>(animales);
+        return animales;
     }
 
     public Animal buscarPorCodigo(int codigo) {
@@ -43,40 +36,31 @@ public class InventarioAnimales {
         return null;
     }
 
-    public boolean actualizarAnimal(int codigo,
-                                    String nombre,
-                                    int edad,
-                                    double peso,
-                                    String sexo,
-                                    EstadoSalud estadoSalud,
-                                    String habitat) {
+    // Filtro por tipo de animal.
+    // Devuelve una nueva lista y no modifica el inventario original.
+    public ArrayList<Animal> filtrarPorTipo(String tipo) {
 
-        Animal animal = buscarPorCodigo(codigo);
+        ArrayList<Animal> resultado = new ArrayList<>();
 
-        if (animal == null) {
-            return false;
+        for (Animal animal : animales) {
+
+            if (tipo.equalsIgnoreCase("mamifero")
+                    && animal instanceof Mamifero) {
+
+                resultado.add(animal);
+
+            } else if (tipo.equalsIgnoreCase("ave")
+                    && animal instanceof Ave) {
+
+                resultado.add(animal);
+
+            } else if (tipo.equalsIgnoreCase("reptil")
+                    && animal instanceof Reptil) {
+
+                resultado.add(animal);
+            }
         }
 
-        animal.actualizarNombre(nombre);
-        animal.actualizarEdad(edad);
-        animal.actualizarPeso(peso);
-        animal.actualizarSexo(sexo);
-        animal.actualizarEstadoSalud(estadoSalud);
-        animal.trasladarHabitat(habitat);
-
-        return true;
-    }
-
-    public boolean retirarAnimal(int codigo) {
-
-        Animal animal = buscarPorCodigo(codigo);
-
-        if (animal == null) {
-            return false;
-        }
-
-        animal.retirar();
-
-        return true;
+        return resultado;
     }
 }

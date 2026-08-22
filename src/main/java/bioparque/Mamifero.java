@@ -21,11 +21,24 @@ public class Mamifero extends Animal {
         this.tipoPelaje = tipoPelaje;
     }
 
+    
+    // IMPLEMENTACIÓN ABSTRACTA
+    
+
+    @Override
+    public String emitirSonido() {
+        return "El mamífero Gruñe.";
+    }
+
+ 
+
     public String getTipoPelaje() {
         return tipoPelaje;
     }
 
-    public void actualizarTipoPelaje(String tipoPelaje) {
+
+
+    public void setTipoPelaje(String tipoPelaje) {
 
         if (tipoPelaje == null || tipoPelaje.trim().isEmpty()) {
             throw new IllegalArgumentException(
@@ -33,17 +46,14 @@ public class Mamifero extends Animal {
             );
         }
 
-        if (getEstadoInventario() == EstadoInventario.RETIRADO) {
-            throw new IllegalStateException(
-                    "No se puede modificar un mamífero retirado."
-            );
-        }
-
         this.tipoPelaje = tipoPelaje;
     }
 
+
+
     @Override
     public String toString() {
+
         return "Mamifero{" +
                 "codigo=" + getCodigo() +
                 ", nombre='" + getNombre() + '\'' +

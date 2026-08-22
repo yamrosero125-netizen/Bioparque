@@ -23,6 +23,18 @@ public class Ave extends Animal {
         this.puedeVolar = puedeVolar;
     }
 
+    
+    // IMPLEMENTACIÓN ABSTRACTA
+    
+
+    @Override
+    public String emitirSonido() {
+
+        return "El ave emite un canto.";
+    }
+
+
+
     public Double getEnvergadura() {
         return envergadura;
     }
@@ -31,7 +43,9 @@ public class Ave extends Animal {
         return puedeVolar;
     }
 
-    public void actualizarEnvergadura(Double envergadura) {
+
+
+    public void setEnvergadura(Double envergadura) {
 
         if (envergadura == null || envergadura < 0) {
             throw new IllegalArgumentException(
@@ -39,28 +53,18 @@ public class Ave extends Animal {
             );
         }
 
-        if (getEstadoInventario() == EstadoInventario.RETIRADO) {
-            throw new IllegalStateException(
-                    "No se puede modificar un ave retirada."
-            );
-        }
-
         this.envergadura = envergadura;
     }
 
-    public void actualizarPuedeVolar(boolean puedeVolar) {
-
-        if (getEstadoInventario() == EstadoInventario.RETIRADO) {
-            throw new IllegalStateException(
-                    "No se puede modificar un ave retirada."
-            );
-        }
-
+    public void setPuedeVolar(boolean puedeVolar) {
         this.puedeVolar = puedeVolar;
     }
 
+
+
     @Override
     public String toString() {
+
         return "Ave{" +
                 "codigo=" + getCodigo() +
                 ", nombre='" + getNombre() + '\'' +

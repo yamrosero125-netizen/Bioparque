@@ -2,7 +2,7 @@ package bioparque;
 
 public abstract class Animal {
 
-    private final int codigo;
+    private int codigo;
     private String nombre;
     private int edad;
     private Double peso;
@@ -38,31 +38,7 @@ public abstract class Animal {
                     "El peso no puede ser negativo."
             );
         }
-
-        if (sexo == null || sexo.trim().isEmpty()) {
-            throw new IllegalArgumentException(
-                    "El sexo no puede estar vacío."
-            );
-        }
-
-        if (estadoSalud == null) {
-            throw new IllegalArgumentException(
-                    "El estado de salud es obligatorio."
-            );
-        }
-
-        if (estadoInventario == null) {
-            throw new IllegalArgumentException(
-                    "El estado del inventario es obligatorio."
-            );
-        }
-
-        if (habitat == null || habitat.trim().isEmpty()) {
-            throw new IllegalArgumentException(
-                    "El hábitat no puede estar vacío."
-            );
-        }
-
+ 
         this.codigo = codigo;
         this.nombre = nombre;
         this.edad = edad;
@@ -73,7 +49,15 @@ public abstract class Animal {
         this.habitat = habitat;
     }
 
-    // Metodos de Dominio 
+    
+    // MÉTODO ABSTRACTO
+    
+
+    public abstract String emitirSonido();
+
+    
+    // MÉTODOS CONCRETOS COMUNES
+    
 
     public void actualizarPeso(double nuevoPeso) {
 
@@ -83,107 +67,17 @@ public abstract class Animal {
             );
         }
 
-        verificarNoRetirado();
-
         this.peso = nuevoPeso;
     }
 
-    public void trasladarHabitat(String nuevoHabitat) {
+    public String resumenBasico() {
 
-        if (nuevoHabitat == null || nuevoHabitat.trim().isEmpty()) {
-            throw new IllegalArgumentException(
-                    "El hábitat no puede estar vacío."
-            );
-        }
-
-        verificarNoRetirado();
-
-        this.habitat = nuevoHabitat;
-    }
-
-    public void ponerEnObservacion() {
-
-        if (estadoInventario == EstadoInventario.RETIRADO) {
-            throw new IllegalStateException(
-                    "Un animal retirado no puede pasar a observación."
-            );
-        }
-
-        this.estadoInventario = EstadoInventario.EN_OBSERVACION;
-    }
-
-    public void retirar() {
-
-        if (estadoInventario == EstadoInventario.RETIRADO) {
-            throw new IllegalStateException(
-                    "El animal ya se encuentra retirado."
-            );
-        }
-
-        this.estadoInventario = EstadoInventario.RETIRADO;
-    }
-
-    // La actualizacion ya esta controlada
-
-    public void actualizarNombre(String nombre) {
-
-        if (nombre == null || nombre.trim().isEmpty()) {
-            throw new IllegalArgumentException(
-                    "El nombre no puede estar vacío."
-            );
-        }
-
-        verificarNoRetirado();
-
-        this.nombre = nombre;
-    }
-
-    public void actualizarEdad(int edad) {
-
-        if (edad < 0) {
-            throw new IllegalArgumentException(
-                    "La edad no puede ser negativa."
-            );
-        }
-
-        verificarNoRetirado();
-
-        this.edad = edad;
-    }
-
-    public void actualizarSexo(String sexo) {
-
-        if (sexo == null || sexo.trim().isEmpty()) {
-            throw new IllegalArgumentException(
-                    "El sexo no puede estar vacío."
-            );
-        }
-
-        verificarNoRetirado();
-
-        this.sexo = sexo;
-    }
-
-    public void actualizarEstadoSalud(EstadoSalud estadoSalud) {
-
-        if (estadoSalud == null) {
-            throw new IllegalArgumentException(
-                    "El estado de salud es obligatorio."
-            );
-        }
-
-        verificarNoRetirado();
-
-        this.estadoSalud = estadoSalud;
-    }
-
-    private void verificarNoRetirado() {
-
-        if (estadoInventario == EstadoInventario.RETIRADO) {
-            throw new IllegalStateException(
-                    "No se puede modificar un animal retirado."
-            );
-        }
+        return "Código: " + codigo
+                + " | Nombre: " + nombre
+                + " | Edad: " + edad
+                + " | Peso: " + peso
+                + " kg"
+                + " | Hábitat: " + habitat;
     }
 
    
@@ -220,8 +114,58 @@ public abstract class Animal {
         return habitat;
     }
 
+    
+
+    public void setNombre(String nombre) {
+
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "El nombre no puede estar vacío."
+            );
+        }
+
+        this.nombre = nombre;
+    }
+
+    public void setEdad(int edad) {
+
+        if (edad < 0) {
+            throw new IllegalArgumentException(
+                    "La edad no puede ser negativa."
+            );
+        }
+
+        this.edad = edad;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public void setEstadoSalud(EstadoSalud estadoSalud) {
+        this.estadoSalud = estadoSalud;
+    }
+
+    public void setEstadoInventario(EstadoInventario estadoInventario) {
+
+        if (estadoInventario == null) {
+            throw new IllegalArgumentException(
+                    "El estado del inventario no puede ser nulo."
+            );
+        }
+
+        this.estadoInventario = estadoInventario;
+    }
+
+    public void setHabitat(String habitat) {
+        this.habitat = habitat;
+    }
+
+
+
     @Override
     public String toString() {
+
         return "Animal{" +
                 "codigo=" + codigo +
                 ", nombre='" + nombre + '\'' +
