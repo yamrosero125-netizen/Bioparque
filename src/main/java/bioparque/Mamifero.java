@@ -12,44 +12,21 @@ public class Mamifero extends Animal {
         super(codigo, nombre, edad, peso, sexo,
                 estadoSalud, estadoInventario, habitat);
 
-        if (tipoPelaje == null || tipoPelaje.trim().isEmpty()) {
-            throw new IllegalArgumentException(
-                    "El tipo de pelaje no puede estar vacío."
-            );
-        }
-
         this.tipoPelaje = tipoPelaje;
     }
 
-    
-    // IMPLEMENTACIÓN ABSTRACTA
-    
-
     @Override
     public String emitirSonido() {
-        return "El mamífero Gruñe.";
+        return "El mamífero emite: ¡Grrrr!";
     }
-
- 
 
     public String getTipoPelaje() {
         return tipoPelaje;
     }
 
-
-
     public void setTipoPelaje(String tipoPelaje) {
-
-        if (tipoPelaje == null || tipoPelaje.trim().isEmpty()) {
-            throw new IllegalArgumentException(
-                    "El tipo de pelaje no puede estar vacío."
-            );
-        }
-
         this.tipoPelaje = tipoPelaje;
     }
-
-
 
     @Override
     public String toString() {

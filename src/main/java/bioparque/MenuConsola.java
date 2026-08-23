@@ -9,6 +9,7 @@ public class MenuConsola {
     private InventarioAnimales inventario;
 
     public MenuConsola() {
+
         scanner = new Scanner(System.in);
         inventario = new InventarioAnimales();
     }
@@ -20,7 +21,10 @@ public class MenuConsola {
         do {
 
             mostrarMenu();
-            opcion = leerEntero("Seleccione una opción: ");
+
+            opcion = leerEntero(
+                    "Seleccione una opción: "
+            );
 
             switch (opcion) {
 
@@ -36,16 +40,38 @@ public class MenuConsola {
                     buscarAnimal();
                     break;
 
+                case 4:
+                    actualizarAnimal();
+                    break;
+
+                case 5:
+                    retirarAnimal();
+                    break;
+
                 case 6:
-                    filtrarAnimales();
+                    filtrarInventario();
+                    break;
+
+                case 7:
+                    ejecutarComportamientos();
+                    break;
+
+                case 8:
+                    mostrarResumen();
                     break;
 
                 case 0:
-                    System.out.println("Saliendo del sistema...");
+                    System.out.println();
+                    System.out.println(
+                            "Saliendo del sistema..."
+                    );
                     break;
 
                 default:
-                    System.out.println("Opción inválida.");
+                    System.out.println();
+                    System.out.println(
+                            "Opción inválida."
+                    );
             }
 
         } while (opcion != 0);
@@ -54,110 +80,194 @@ public class MenuConsola {
     private void mostrarMenu() {
 
         System.out.println();
-        System.out.println("=== INVENTARIO DE ANIMALES - BIOPARQUE PASTO ===");
+        System.out.println(
+                "=============================================="
+        );
+        System.out.println(
+                "       INVENTARIO DE ANIMALES - BIOPARQUE"
+        );
+        System.out.println(
+                "=============================================="
+        );
+
         System.out.println("1. Registrar animal");
         System.out.println("2. Listar animales");
         System.out.println("3. Buscar animal por código");
-        System.out.println("6. Filtrar animales por tipo");
+        System.out.println("4. Actualizar datos de un animal");
+        System.out.println("5. Retirar animal");
+        System.out.println("6. Filtrar inventario");
+        System.out.println("7. Ejecutar comportamientos");
+        System.out.println("8. Ver resumen del inventario");
         System.out.println("0. Salir");
     }
+
+    // =====================================================
+    // OPCIÓN 1
+    // =====================================================
 
     private void registrarAnimal() {
 
         System.out.println();
         System.out.println("=== REGISTRAR ANIMAL ===");
+
         System.out.println("1. Mamífero");
         System.out.println("2. Ave");
         System.out.println("3. Reptil");
 
-        int categoria = leerEntero("Seleccione categoría: ");
+        int categoria = leerEntero(
+                "Seleccione categoría: "
+        );
 
-        int codigo = leerEntero("Código: ");
+        if (categoria < 1 || categoria > 3) {
 
-        if (inventario.buscarPorCodigo(codigo) != null) {
-            System.out.println("El código ya está registrado.");
+            System.out.println(
+                    "Categoría inválida."
+            );
+
             return;
         }
 
-        String nombre = leerTexto("Nombre: ");
-        int edad = leerEntero("Edad: ");
-        double peso = leerDouble("Peso: ");
-        String sexo = leerTexto("Sexo: ");
-        String habitat = leerTexto("Hábitat: ");
+        int codigo = leerEntero(
+                "Código: "
+        );
+
+        if (inventario.buscarPorCodigo(codigo) != null) {
+
+            System.out.println(
+                    "El código ya está registrado."
+            );
+
+            return;
+        }
+
+        String nombre = leerTexto(
+                "Nombre: "
+        );
+
+        int edad = leerEntero(
+                "Edad: "
+        );
+
+        if (edad < 0) {
+
+            System.out.println(
+                    "La edad no puede ser negativa."
+            );
+
+            return;
+        }
+
+        double peso = leerDouble(
+                "Peso: "
+        );
+
+        String sexo = leerTexto(
+                "Sexo: "
+        );
+
+        String habitat = leerTexto(
+                "Hábitat: "
+        );
 
         Animal animal;
 
-        switch (categoria) {
+        try {
 
-            case 1:
+            switch (categoria) {
 
-                String tipoPelaje = leerTexto("Tipo de pelaje: ");
+                case 1:
 
-                animal = new Mamifero(
-                        codigo,
-                        nombre,
-                        edad,
-                        peso,
-                        sexo,
-                        EstadoSalud.SALUDABLE,
-                        EstadoInventario.ACTIVO,
-                        habitat,
-                        tipoPelaje
+                    String tipoPelaje = leerTexto(
+                            "Tipo de pelaje: "
+                    );
+
+                    animal = new Mamifero(
+                            codigo,
+                            nombre,
+                            edad,
+                            peso,
+                            sexo,
+                            EstadoSalud.SALUDABLE,
+                            EstadoInventario.ACTIVO,
+                            habitat,
+                            tipoPelaje
+                    );
+
+                    break;
+
+                case 2:
+
+                    double envergadura = leerDouble(
+                            "Envergadura: "
+                    );
+
+                    boolean puedeVolar = leerBoolean(
+                            "¿Puede volar? (s/n): "
+                    );
+
+                    animal = new Ave(
+                            codigo,
+                            nombre,
+                            edad,
+                            peso,
+                            sexo,
+                            EstadoSalud.SALUDABLE,
+                            EstadoInventario.ACTIVO,
+                            habitat,
+                            envergadura,
+                            puedeVolar
+                    );
+
+                    break;
+
+                case 3:
+
+                    String tipoEscamas = leerTexto(
+                            "Tipo de escamas: "
+                    );
+
+                    animal = new Reptil(
+                            codigo,
+                            nombre,
+                            edad,
+                            peso,
+                            sexo,
+                            EstadoSalud.SALUDABLE,
+                            EstadoInventario.ACTIVO,
+                            habitat,
+                            tipoEscamas
+                    );
+
+                    break;
+
+                default:
+                    return;
+            }
+
+            if (inventario.registrarAnimal(animal)) {
+
+                System.out.println(
+                        "Animal registrado correctamente."
                 );
 
-                break;
+            } else {
 
-            case 2:
-
-                double envergadura = leerDouble("Envergadura: ");
-                boolean puedeVolar = leerBoolean(
-                        "¿Puede volar? (s/n): "
+                System.out.println(
+                        "No fue posible registrar el animal."
                 );
+            }
 
-                animal = new Ave(
-                        codigo,
-                        nombre,
-                        edad,
-                        peso,
-                        sexo,
-                        EstadoSalud.SALUDABLE,
-                        EstadoInventario.ACTIVO,
-                        habitat,
-                        envergadura,
-                        puedeVolar
-                );
+        } catch (IllegalArgumentException e) {
 
-                break;
-
-            case 3:
-
-                String tipoEscamas = leerTexto("Tipo de escamas: ");
-
-                animal = new Reptil(
-                        codigo,
-                        nombre,
-                        edad,
-                        peso,
-                        sexo,
-                        EstadoSalud.SALUDABLE,
-                        EstadoInventario.ACTIVO,
-                        habitat,
-                        tipoEscamas
-                );
-
-                break;
-
-            default:
-                System.out.println("Categoría inválida.");
-                return;
-        }
-
-        if (inventario.registrarAnimal(animal)) {
-            System.out.println("Animal registrado correctamente.");
-        } else {
-            System.out.println("No fue posible registrar el animal.");
+            System.out.println(
+                    "Error: " + e.getMessage()
+            );
         }
     }
+
+    // =====================================================
+    // OPCIÓN 2
+    // =====================================================
 
     private void listarAnimales() {
 
@@ -165,74 +275,335 @@ public class MenuConsola {
         System.out.println("=== LISTA DE ANIMALES ===");
 
         if (inventario.listarAnimales().isEmpty()) {
-            System.out.println("No hay animales registrados.");
+
+            System.out.println(
+                    "No hay animales registrados."
+            );
+
             return;
         }
 
-        for (Animal animal : inventario.listarAnimales()) {
+        for (Animal animal :
+                inventario.listarAnimales()) {
+
             System.out.println(animal);
         }
     }
+
+    // =====================================================
+    // OPCIÓN 3
+    // =====================================================
 
     private void buscarAnimal() {
 
-        int codigo = leerEntero("Ingrese el código: ");
+        System.out.println();
+        System.out.println("=== BUSCAR ANIMAL ===");
 
-        Animal animal = inventario.buscarPorCodigo(codigo);
+        int codigo = leerEntero(
+                "Ingrese el código: "
+        );
+
+        Animal animal =
+                inventario.buscarPorCodigo(codigo);
 
         if (animal != null) {
-            System.out.println("Animal encontrado:");
+
+            System.out.println(
+                    "Animal encontrado:"
+            );
+
             System.out.println(animal);
+
         } else {
-            System.out.println("No existe un animal con ese código.");
+
+            System.out.println(
+                    "No existe un animal con ese código."
+            );
         }
     }
 
-    private void filtrarAnimales() {
+    // =====================================================
+    // OPCIÓN 4
+    // =====================================================
+
+    private void actualizarAnimal() {
 
         System.out.println();
-        System.out.println("=== FILTRAR ANIMALES POR TIPO ===");
-        System.out.println("1. Mamíferos");
-        System.out.println("2. Aves");
-        System.out.println("3. Reptiles");
+        System.out.println(
+                "=== ACTUALIZAR DATOS DE ANIMAL ==="
+        );
 
-        int opcion = leerEntero("Seleccione el tipo de animal: ");
+        int codigo = leerEntero(
+                "Ingrese el código del animal: "
+        );
 
-        String tipo;
+        Animal animal =
+                inventario.buscarPorCodigo(codigo);
+
+        if (animal == null) {
+
+            System.out.println(
+                    "No existe un animal con ese código."
+            );
+
+            return;
+        }
+
+        if (animal.getEstadoInventario()
+                == EstadoInventario.RETIRADO) {
+
+            System.out.println(
+                    "No se puede actualizar un animal retirado."
+            );
+
+            return;
+        }
+
+        System.out.println();
+        System.out.println(
+                "Datos actuales:"
+        );
+
+        System.out.println(animal);
+
+        System.out.println();
+        System.out.println(
+                "Ingrese los nuevos datos:"
+        );
+
+        String nombre = leerTexto(
+                "Nuevo nombre: "
+        );
+
+        int edad = leerEntero(
+                "Nueva edad: "
+        );
+
+        double peso = leerDouble(
+                "Nuevo peso: "
+        );
+
+        String sexo = leerTexto(
+                "Nuevo sexo: "
+        );
+
+        String habitat = leerTexto(
+                "Nuevo hábitat: "
+        );
+
+        try {
+
+            boolean actualizado =
+                    inventario.actualizarAnimal(
+                            codigo,
+                            nombre,
+                            edad,
+                            peso,
+                            sexo,
+                            habitat
+                    );
+
+            if (actualizado) {
+
+                System.out.println();
+                System.out.println(
+                        "Animal actualizado correctamente."
+                );
+
+            } else {
+
+                System.out.println(
+                        "No fue posible actualizar el animal."
+                );
+            }
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println(
+                    "Error: " + e.getMessage()
+            );
+        }
+    }
+
+    // =====================================================
+    // OPCIÓN 5
+    // =====================================================
+
+    private void retirarAnimal() {
+
+        System.out.println();
+        System.out.println(
+                "=== RETIRAR ANIMAL ==="
+        );
+
+        int codigo = leerEntero(
+                "Ingrese el código del animal: "
+        );
+
+        Animal animal =
+                inventario.buscarPorCodigo(codigo);
+
+        if (animal == null) {
+
+            System.out.println(
+                    "No existe un animal con ese código."
+            );
+
+            return;
+        }
+
+        System.out.println();
+        System.out.println(
+                "Animal seleccionado:"
+        );
+
+        System.out.println(animal);
+
+        System.out.println();
+        System.out.println(
+                "¿Está seguro de retirar este animal?"
+        );
+
+        boolean confirmar = leerBoolean(
+                "Confirmar (s/n): "
+        );
+
+        if (!confirmar) {
+
+            System.out.println(
+                    "Operación cancelada."
+            );
+
+            return;
+        }
+
+        try {
+
+            if (inventario.retirarAnimal(codigo)) {
+
+                System.out.println();
+                System.out.println(
+                        "Animal retirado correctamente."
+                );
+
+            } else {
+
+                System.out.println(
+                        "No fue posible retirar el animal."
+                );
+            }
+
+        } catch (IllegalStateException e) {
+
+            System.out.println(
+                    "Error: " + e.getMessage()
+            );
+        }
+    }
+
+    // =====================================================
+    // OPCIÓN 6
+    // =====================================================
+
+    private void filtrarInventario() {
+
+        System.out.println();
+        System.out.println(
+                "=== FILTRAR INVENTARIO ==="
+        );
+
+        System.out.println(
+                "1. Animales activos"
+        );
+
+        System.out.println(
+                "2. Animales en observación"
+        );
+
+        System.out.println(
+                "3. Animales retirados"
+        );
+
+        int opcion = leerEntero(
+                "Seleccione un filtro: "
+        );
+
+        EstadoInventario estado;
 
         switch (opcion) {
 
             case 1:
-                tipo = "mamifero";
+                estado = EstadoInventario.ACTIVO;
                 break;
 
             case 2:
-                tipo = "ave";
+                estado =
+                        EstadoInventario.EN_OBSERVACION;
                 break;
 
             case 3:
-                tipo = "reptil";
+                estado =
+                        EstadoInventario.RETIRADO;
                 break;
 
             default:
-                System.out.println("Tipo de animal inválido.");
+
+                System.out.println(
+                        "Filtro inválido."
+                );
+
                 return;
         }
 
-        ArrayList<Animal> resultados = inventario.filtrarPorTipo(tipo);
+        ArrayList<Animal> resultado =
+                inventario.filtrarPorEstado(estado);
 
         System.out.println();
-        System.out.println("=== RESULTADO DEL FILTRO ===");
+        System.out.println(
+                "=== RESULTADO DEL FILTRO ==="
+        );
 
-        if (resultados.isEmpty()) {
-            System.out.println("No hay animales de este tipo.");
+        if (resultado.isEmpty()) {
+
+            System.out.println(
+                    "No hay animales con ese estado."
+            );
+
             return;
         }
 
-        for (Animal animal : resultados) {
+        for (Animal animal : resultado) {
+
             System.out.println(animal);
         }
     }
+
+    // =====================================================
+    // OPCIÓN 7
+    // =====================================================
+
+    private void ejecutarComportamientos() {
+
+        System.out.println();
+        System.out.println(
+                "=== EJECUTAR COMPORTAMIENTOS ==="
+        );
+
+        inventario.ejecutarComportamientos();
+    }
+
+    // =====================================================
+    // OPCIÓN 8
+    // =====================================================
+
+    private void mostrarResumen() {
+
+        inventario.mostrarResumen();
+    }
+
+    // =====================================================
+    // MÉTODOS AUXILIARES
+    // =====================================================
 
     private int leerEntero(String mensaje) {
 
@@ -241,7 +612,10 @@ public class MenuConsola {
             try {
 
                 System.out.print(mensaje);
-                return Integer.parseInt(scanner.nextLine());
+
+                return Integer.parseInt(
+                        scanner.nextLine()
+                );
 
             } catch (NumberFormatException e) {
 
@@ -259,13 +633,20 @@ public class MenuConsola {
             try {
 
                 System.out.print(mensaje);
-                double valor = Double.parseDouble(scanner.nextLine());
+
+                double valor =
+                        Double.parseDouble(
+                                scanner.nextLine()
+                        );
 
                 if (valor < 0) {
+
                     System.out.println(
                             "El valor no puede ser negativo."
                     );
+
                 } else {
+
                     return valor;
                 }
 
@@ -283,9 +664,12 @@ public class MenuConsola {
         while (true) {
 
             System.out.print(mensaje);
-            String texto = scanner.nextLine().trim();
+
+            String texto =
+                    scanner.nextLine().trim();
 
             if (!texto.isEmpty()) {
+
                 return texto;
             }
 
@@ -300,7 +684,11 @@ public class MenuConsola {
         while (true) {
 
             System.out.print(mensaje);
-            String respuesta = scanner.nextLine().trim().toLowerCase();
+
+            String respuesta =
+                    scanner.nextLine()
+                            .trim()
+                            .toLowerCase();
 
             if (respuesta.equals("s")) {
                 return true;
@@ -310,7 +698,9 @@ public class MenuConsola {
                 return false;
             }
 
-            System.out.println("Ingrese solamente s o n.");
+            System.out.println(
+                    "Ingrese solamente s o n."
+            );
         }
     }
 }

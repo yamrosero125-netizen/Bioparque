@@ -38,7 +38,7 @@ public abstract class Animal {
                     "El peso no puede ser negativo."
             );
         }
- 
+
         this.codigo = codigo;
         this.nombre = nombre;
         this.edad = edad;
@@ -49,15 +49,8 @@ public abstract class Animal {
         this.habitat = habitat;
     }
 
-    
-    // MÉTODO ABSTRACTO
-    
-
+    // Método abstracto: cada tipo de animal responde diferente
     public abstract String emitirSonido();
-
-    
-    // MÉTODOS CONCRETOS COMUNES
-    
 
     public void actualizarPeso(double nuevoPeso) {
 
@@ -70,17 +63,27 @@ public abstract class Animal {
         this.peso = nuevoPeso;
     }
 
-    public String resumenBasico() {
+    public void retirar() {
 
-        return "Código: " + codigo
-                + " | Nombre: " + nombre
-                + " | Edad: " + edad
-                + " | Peso: " + peso
-                + " kg"
-                + " | Hábitat: " + habitat;
+        if (estadoInventario == EstadoInventario.RETIRADO) {
+            throw new IllegalStateException(
+                    "El animal ya se encuentra retirado."
+            );
+        }
+
+        estadoInventario = EstadoInventario.RETIRADO;
     }
 
-   
+    public void ponerEnObservacion() {
+
+        if (estadoInventario == EstadoInventario.RETIRADO) {
+            throw new IllegalStateException(
+                    "Un animal retirado no puede pasar a observación."
+            );
+        }
+
+        estadoInventario = EstadoInventario.EN_OBSERVACION;
+    }
 
     public int getCodigo() {
         return codigo;
@@ -114,8 +117,6 @@ public abstract class Animal {
         return habitat;
     }
 
-    
-
     public void setNombre(String nombre) {
 
         if (nombre == null || nombre.trim().isEmpty()) {
@@ -146,22 +147,25 @@ public abstract class Animal {
         this.estadoSalud = estadoSalud;
     }
 
-    public void setEstadoInventario(EstadoInventario estadoInventario) {
+    public void setHabitat(String habitat) {
 
-        if (estadoInventario == null) {
+        if (habitat == null || habitat.trim().isEmpty()) {
             throw new IllegalArgumentException(
-                    "El estado del inventario no puede ser nulo."
+                    "El hábitat no puede estar vacío."
             );
         }
 
-        this.estadoInventario = estadoInventario;
-    }
-
-    public void setHabitat(String habitat) {
         this.habitat = habitat;
     }
 
+    public String resumenBasico() {
 
+        return "Código: " + codigo
+                + " | Nombre: " + nombre
+                + " | Edad: " + edad
+                + " | Peso: " + peso
+                + " | Estado: " + estadoInventario;
+    }
 
     @Override
     public String toString() {

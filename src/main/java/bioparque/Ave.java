@@ -13,27 +13,14 @@ public class Ave extends Animal {
         super(codigo, nombre, edad, peso, sexo,
                 estadoSalud, estadoInventario, habitat);
 
-        if (envergadura == null || envergadura < 0) {
-            throw new IllegalArgumentException(
-                    "La envergadura no puede ser negativa."
-            );
-        }
-
         this.envergadura = envergadura;
         this.puedeVolar = puedeVolar;
     }
 
-    
-    // IMPLEMENTACIÓN ABSTRACTA
-    
-
     @Override
     public String emitirSonido() {
-
-        return "El ave emite un canto.";
+        return "El ave emite: ¡Pío pío!";
     }
-
-
 
     public Double getEnvergadura() {
         return envergadura;
@@ -43,24 +30,13 @@ public class Ave extends Animal {
         return puedeVolar;
     }
 
-
-
     public void setEnvergadura(Double envergadura) {
-
-        if (envergadura == null || envergadura < 0) {
-            throw new IllegalArgumentException(
-                    "La envergadura no puede ser negativa."
-            );
-        }
-
         this.envergadura = envergadura;
     }
 
     public void setPuedeVolar(boolean puedeVolar) {
         this.puedeVolar = puedeVolar;
     }
-
-
 
     @Override
     public String toString() {

@@ -12,44 +12,21 @@ public class Reptil extends Animal {
         super(codigo, nombre, edad, peso, sexo,
                 estadoSalud, estadoInventario, habitat);
 
-        if (tipoEscamas == null || tipoEscamas.trim().isEmpty()) {
-            throw new IllegalArgumentException(
-                    "El tipo de escamas no puede estar vacío."
-            );
-        }
-
         this.tipoEscamas = tipoEscamas;
     }
 
-    
-    
-
     @Override
     public String emitirSonido() {
-
-        return "El reptil hace sentir como se arrastra por el piso.";
+        return "El reptil emite: ¡Sssss!";
     }
-
-    
 
     public String getTipoEscamas() {
         return tipoEscamas;
     }
 
-    
-
     public void setTipoEscamas(String tipoEscamas) {
-
-        if (tipoEscamas == null || tipoEscamas.trim().isEmpty()) {
-            throw new IllegalArgumentException(
-                    "El tipo de escamas no puede estar vacío."
-            );
-        }
-
         this.tipoEscamas = tipoEscamas;
     }
-
-    
 
     @Override
     public String toString() {
